@@ -23,6 +23,7 @@
 
 <script>
 import axios from 'axios';
+import ip from '../../ip/ip.js'
 export default {
   name: 'Sbook_state',
   mounted(){
@@ -53,7 +54,7 @@ export default {
       const token = this.$store.state.user.token
       console.log(token)
       axios
-        .post("http://10.131.214.7:8080/user/allborrow?userid=" + token)
+        .post("http://"+ip.ipall+":8080/user/allborrow?userid=" + token)
         .then(res => {
           console.log("输出response.data", res.data);
           if (res.data.flag === 1) {
@@ -69,7 +70,7 @@ export default {
       const token = this.$store.state.user.token
       console.log(token)
       axios
-        .post("http://10.131.214.7:8080/user/borrowone?userid="+ token + "&bookid="+ scope.row.book_id)
+        .post("http://"+ip.ipall+":8080/user/borrowone?userid="+ token + "&bookid="+ scope.row.book_id)
         .then(res => {
           console.log("输出response.data", res.data);
           if (res.data.flag === 1) {

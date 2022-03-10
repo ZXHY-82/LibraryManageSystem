@@ -9,7 +9,7 @@
           <el-input v-model="manageForm.id" placeholder="请输入用户id"></el-input>
         </el-form-item> -->
         <el-form-item label="name" prop="name">
-          <el-input v-model="manageForm.uname" placeholder="请输入用户名"></el-input>
+          <el-input v-model="manageForm.name" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item label="pwd" prop="pwd">
           <el-input v-model="manageForm.pwd" placeholder="请输入密码"></el-input>
@@ -53,6 +53,7 @@
 
 <script>
 import axios from 'axios'
+import ip from '../../ip/ip.js'
 export default {
   name: 'Saccount_manage',
   mounted(){
@@ -87,13 +88,20 @@ export default {
       },
       searchForm:{
         name: ""
+      },
+      temp:{
+        id: "",
+        name: "",
+        pwd: "",
+        school: "",
+        email: "",
       }
     }
   },
   methods:{
     ini(){
       axios
-        .post("http://10.131.214.7:8080/user/all")
+        .post("http://"+ip.ipall+":8080/user/all")
         .then(res => {
           console.log("输出response.data.status", res.data);
           if (res.data.flag === 1) {
@@ -105,7 +113,7 @@ export default {
     },
     confirm(){
         axios
-        .post("http://10.131.214.7:8080/user/change?id="+ this.manageForm.id +"&uname=" + this.manageForm.uname
+        .post("http://"+ip.ipall+":8080/user/change?id="+ this.manageForm.id +"&uname=" + this.manageForm.name
         + "&pwd=" + this.manageForm.pwd + "&school=" + this.manageForm.school + "&email=" + this.manageForm.email)
         .then(res => {
           console.log("输出response.data.status", res.data);
@@ -124,12 +132,19 @@ export default {
     },
     search(){
       console.log("1111")
+      this.id = this.searchForm.name
+      console.log(this.id)
       axios
-        .post("http://10.131.214.7:8080/user/search?id=" + this.searchForm.name)
+        .post("http://"+ip.ipall+":8080/user/search?id=" + this.searchForm.name)
         .then(res => {
           console.log("输出response.data", res.data);
           if (res.data.flag === 1) {
-            this.tableData = res.data
+            this.temp.name = res.data.name
+            this.temp.email = res.data.email
+            this.temp.school = res.data.school
+            this.temp.pwd = res.data.pwd
+            this.temp.id = this.id
+            this.tableData = [this.temp]
           } else {
             alert("未找到相关用户！");
           }
@@ -143,6 +158,7 @@ export default {
       this.operateType = 'edit'
       this.isShow = true
       this.manageForm = scope.row
+      // this.manageForm.uname = scope.name
     },
     deleteRow(scope){
       console.log(scope.row.Document_ID)

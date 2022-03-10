@@ -40,6 +40,7 @@
  
 <script>
 import axios from "axios";
+import ip from "../ip/ip.js"
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Login",
@@ -48,12 +49,13 @@ export default {
       user: {
         username: "",
         password: ""
-      }  
+      },
     };
   },
   // created() {},
   methods: {
     doLogin() {
+      console.log(ip.ipall)
       if (!this.user.username) {
         this.$message.error("请输入用户名！");
         return;
@@ -65,7 +67,7 @@ export default {
         // this.$store.commit('setToken', token)
         // this.$router.push({ path: "/user" });
         axios
-          .post("http://10.131.214.7:8080/interface/ordinary/login?id=" + this.user.username + "&pwd=" + this.user.password)
+          .post("http://"+ip.ipall+":8080/interface/ordinary/login?id=" + this.user.username + "&pwd=" + this.user.password)
           .then(res => {
             console.log("输出response.data.status", res.data);
             if (res.data.flag === 1) {

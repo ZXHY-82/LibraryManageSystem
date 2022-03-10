@@ -63,6 +63,7 @@
 
 <script>
 import axios from 'axios'
+import ip from '../../ip/ip.js'
 export default {
   name: 'Sbook_manage',
   mounted (){
@@ -117,7 +118,7 @@ export default {
   methods:{
     ini(){
       axios
-        .post("http://10.131.214.7:8080/interface/bookop/all")
+        .post("http://"+ip.ipall+":8080/interface/bookop/all")
         .then(res => {
           console.log("输出response.data.status", res.data);
           if (res.data.flag === 1) {
@@ -130,7 +131,7 @@ export default {
     confirm(){
       if(this.operateType === 'add'){
         axios
-        .post("http://10.131.214.7:8080/interface/bookop/add?name=" + this.manageForm.name + "&author=" + this.manageForm.author
+        .post("http://"+ip.ipall+":8080/interface/bookop/add?name=" + this.manageForm.name + "&author=" + this.manageForm.author
         + "&pub_ho=" + this.manageForm.pub_ho + "&pub_time=" + this.manageForm.pub_time + "&introduction=" + this.manageForm.introduction
         + "&all_num=" + this.manageForm.all_num + "&now_num=" + this.manageForm.now_num)
         .then(res => {
@@ -147,7 +148,7 @@ export default {
       }
       else{
         axios
-        .post("http://10.131.214.7:8080/interface/bookop/revise?name=" + this.manageForm.name + "&author=" + this.manageForm.author
+        .post("http://"+ip.ipall+":8080/interface/bookop/revise?name=" + this.manageForm.name + "&author=" + this.manageForm.author
         + "&pub_ho=" + this.manageForm.pub_ho + "&pub_time=" + this.manageForm.pub_time + "&introduction=" + this.manageForm.introduction
         + "&id=" + this.manageForm.book_id + "&all_num=" + this.manageForm.all_num + "&now_num=" + this.manageForm.now_num)
         .then(res => {
@@ -182,7 +183,7 @@ export default {
     search(){
       console.log("1111")
       axios
-        .post("http://10.131.214.7:8080/interface/bookop/search?name=" + this.searchForm.name)
+        .post("http://"+ip.ipall+":8080/interface/bookop/search?name=" + this.searchForm.name)
         .then(res => {
           console.log("输出response.data.status", res.data);
           if (res.data.flag === 1) {
@@ -201,7 +202,7 @@ export default {
     deleteRow(scope){
       console.log(scope.row.Document_ID)
         axios
-        .post("http://10.131.214.7:8080/interface/bookop/delete?id=" + scope.row.book_id)
+        .post("http://"+ip.ipall+":8080/interface/bookop/delete?id=" + scope.row.book_id)
         .then(res => {
           console.log("输出response.data.status", res.data);
           if (res.data.flag === 1) {

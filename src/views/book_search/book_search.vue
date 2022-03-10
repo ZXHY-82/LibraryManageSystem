@@ -28,6 +28,7 @@
 
 <script>
 import axios from 'axios';
+import ip from '../../ip/ip.js'
 export default {
   name: 'book_search',
   mounted(){
@@ -76,7 +77,7 @@ export default {
   methods:{
     ini(){
       axios
-        .post("http://10.131.214.7:8080/interface/bookop/all")
+        .post("http://"+ip.ipall+":8080/interface/bookop/all")
         .then(res => {
           console.log("输出response.data", res.data);
           if (res.data.flag === 1) {
@@ -92,7 +93,7 @@ export default {
       const token = this.$store.state.user.token
       console.log(token)
       axios
-        .post("http://10.131.214.7:8080/user/borrowone?userid="+ token + "&bookid="+ scope.row.book_id)
+        .post("http://"+ip.ipall+":8080/user/borrowone?userid="+ token + "&bookid="+ scope.row.book_id)
         .then(res => {
           console.log("输出response.data", res.data);
           if (res.data.flag === 1) {
@@ -106,7 +107,7 @@ export default {
     search(){
       console.log("1111")
       axios
-        .post("http://10.131.214.7:8080/interface/bookop/search?name=" + this.searchForm.name)
+        .post("http://"+ip.ipall+":8080/interface/bookop/search?name=" + this.searchForm.name)
         .then(res => {
           console.log("输出response.data.status", res.data);
           if (res.data.flag === 1) {

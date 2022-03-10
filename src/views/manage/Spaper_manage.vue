@@ -6,7 +6,7 @@
     >
       <el-form ref="manageForm" label-with="100px" :model="manageForm" >
         <el-form-item label="Name" prop="name">
-          <el-input v-model="manageForm.uname" placeholder="请输入论文名"></el-input>
+          <el-input v-model="manageForm.name" placeholder="请输入论文名"></el-input>
         </el-form-item>
         <el-form-item label="Author" prop="author">
           <el-input v-model="manageForm.author" placeholder="请输入论文作者"></el-input>
@@ -26,6 +26,9 @@
         <el-form-item label="Stars" prop="stars">
           <el-input v-model="manageForm.stars" placeholder="请输入"></el-input>
         </el-form-item>
+        <el-form-item label="url" prop="url">
+          <el-input v-model="manageForm.url" placeholder="请输入下载地址链接"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="QX()">取消</el-button>
@@ -41,7 +44,7 @@
       <el-button @click="search()" type="primary">搜索</el-button>
     </el-row>
   <el-table  :data="tableData"  border height="600" style="width: 1420px">
-    <el-table-column  prop="uname" label="Name" width="250"></el-table-column>
+    <el-table-column  prop="name" label="Name" width="250"></el-table-column>
     <el-table-column  prop="author" label="Author" width="150"></el-table-column>
     <el-table-column prop="Document_ID" label="Document_ID"  width="150"></el-table-column>
     <el-table-column prop="publish_time" label="Publish_Time"  width="150"></el-table-column>
@@ -67,6 +70,7 @@
 
 <script>
 import axios from 'axios'
+import ip from '../../ip/ip.js'
 export default {
   name: 'Spaper_manage',
   mounted (){
@@ -108,7 +112,8 @@ export default {
         publish_time: "",
         citation_amount: "",
         publisher: "",
-        stars: ""
+        stars: "",
+        url:""
       },
       searchForm:{
         name: ""
@@ -118,7 +123,7 @@ export default {
   methods:{
     ini(){
       axios
-        .post("http://10.131.214.7:8080/interface/op/all")
+        .post("http://"+ip.ipall+":8080/interface/op/all")
         .then(res => {
           console.log("输出response.data.status", res.data);
           if (res.data.flag === 1) {
@@ -131,9 +136,9 @@ export default {
     confirm(){
       if(this.operateType === 'add'){
         axios
-        .post("http://10.131.214.7:8080/interface/paperop/add?name=" + this.manageForm.name + "&author=" + this.manageForm.author
+        .post("http://"+ip.ipall+":8080/interface/paperop/add?name=" + this.manageForm.name + "&author=" + this.manageForm.author
         + "&Document_ID=" + this.manageForm.Document_ID + "&publish_time=" + this.manageForm.publish_time + "&citation_amount=" + this.manageForm.citation_amount
-        + "&publisher=" + this.manageForm.publisher + "&stars=" + this.manageForm.stars)
+        + "&publisher=" + this.manageForm.publisher + "&stars=" + this.manageForm.stars +"&url=" + this.manageForm.url)
         .then(res => {
           console.log("输出response.data.status", res.data);
           if (res.data.flag === 1) {
@@ -148,9 +153,9 @@ export default {
       }
       else{
         axios
-        .post("http://10.131.214.7:8080/interface/paperop/revise?name=" + this.manageForm.uname + "&author=" + this.manageForm.author
+        .post("http://"+ip.ipall+":8080/interface/paperop/revise?name=" + this.manageForm.name + "&author=" + this.manageForm.author
         + "&Document_ID=" + this.manageForm.Document_ID + "&publish_time=" + this.manageForm.publish_time + "&citation_amount=" + this.manageForm.citation_amount
-        + "&publisher=" + this.manageForm.publisher + "&stars=" + this.manageForm.stars)
+        + "&publisher=" + this.manageForm.publisher + "&stars=" + this.manageForm.stars + "&url=" + this.manageForm.url)
         .then(res => {
           console.log("输出response.data.status", res.data);
           if (res.data.flag === 1) {
@@ -176,14 +181,15 @@ export default {
         publish_time: "",
         citation_amount: "",
         publisher: "",
-        stars: ""
+        stars: "",
+        url:""
       }
       this.operateType = 'add'
     },
     search(){
       console.log("1111")
       axios
-        .post("http://10.131.214.7:8080/interface/op/search?name=" + this.searchForm.name)
+        .post("http://"+ip.ipall+":8080/interface/op/search?name=" + this.searchForm.name)
         .then(res => {
           console.log("输出response.data.status", res.data);
           if (res.data.flag === 1) {
@@ -198,11 +204,12 @@ export default {
       this.operateType = 'edit'
       this.isShow = true
       this.manageForm = scope.row
+      // this.manageForm.name = scope.row.uname
     },
     deleteRow(scope){
       console.log(scope.row.Document_ID)
         axios
-        .post("http://10.131.214.7:8080/interface/paperop/delete?Document_ID=" + scope.row.Document_ID)
+        .post("http://"+ip.ipall+":8080/interface/paperop/delete?Document_ID=" + scope.row.Document_ID)
         .then(res => {
           console.log("输出response.data.status", res.data);
           if (res.data.flag === 1) {

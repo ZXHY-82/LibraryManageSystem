@@ -9,7 +9,7 @@
       <el-button @click="search()" type="primary">搜索</el-button>
     </el-row>
   <el-table  :data="tableData"  border height="600" style="width: 1420px">
-    <el-table-column  prop="uname" label="name" width="265"></el-table-column>
+    <el-table-column  prop="name" label="name" width="265"></el-table-column>
     <el-table-column  prop="author" label="author" width="165"></el-table-column>
     <el-table-column prop="Document_ID" label="Document_ID"  width="165"></el-table-column>
     <el-table-column prop="publish_time" label="publish_time"  width="165"></el-table-column>
@@ -27,6 +27,7 @@
 
 <script>
 import axios from 'axios';
+import ip from '../../ip/ip.js'
 export default {
   name: 'paper_search',
   mounted(){
@@ -75,7 +76,7 @@ export default {
   methods:{
     ini(){
       axios
-        .post("http://10.131.214.7:8080/interface/op/all")
+        .post("http://"+ip.ipall+":8080/interface/op/all")
         .then(res => {
           console.log("输出response.data.status", res.data);
           if (res.data.flag === 1) {
@@ -91,7 +92,7 @@ export default {
       const token = this.$store.state.user.token
       console.log(token)
       axios
-        .post("http://10.131.214.7:8080/?userid="+ token + "&="+ scope.row.uname)
+        .post("http://"+ip.ipall+":8080/?userid="+ token + "&="+ scope.row.uname)
         .then(res => {
           console.log("输出response.data", res.data);
           if (res.data.flag === 1) {
@@ -104,7 +105,7 @@ export default {
     search(){
       console.log("1111")
       axios
-        .post("http://10.131.214.7:8080/interface/op/search?name=" + this.searchForm.name)
+        .post("http://"+ip.ipall+":8080/interface/op/search?name=" + this.searchForm.name)
         .then(res => {
           console.log("输出response.data.status", res.data);
           if (res.data.flag === 1) {

@@ -38,6 +38,7 @@
  
 <script>
 import axios from "axios";
+import ip from "../ip/ip.js";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Register",
@@ -81,7 +82,7 @@ export default {
         else {
           // this.$router.push({ path: "/" }); //无需向后台提交数据，方便前台调试
           axios
-            .post("http://10.131.214.7:8080/interface/ordinary/signup?uname=" + this.user.username +"&pwd=" + this.user.password
+            .post("http://"+ip.ipall+":8080/interface/ordinary/signup?uname=" + this.user.username +"&pwd=" + this.user.password
              + "&school=" + this.user.school + "&email=" + this.user.email)
             // this.$router.push({ path: "/" });
             .then(res => {

@@ -9,7 +9,7 @@
       <el-button @click="search()" type="primary">搜索</el-button>
     </el-row>
   <el-table  :data="tableData"  border height="600" style="width: 1420px">
-    <el-table-column  prop="uname" label="Name" width="165">
+    <el-table-column  prop="name" label="Name" width="165">
     </el-table-column>
     <el-table-column  prop="author" label="Author" width="165"></el-table-column>
     <el-table-column prop="Document_ID" label="Document_ID"  width="165"></el-table-column>
@@ -28,6 +28,7 @@
 
 <script>
 import axios from 'axios'
+import ip from '../../ip/ip.js'
 export default {
   name: 'Spaper_search',
   mounted (){
@@ -87,7 +88,7 @@ export default {
   methods:{
     ini(){
       axios
-        .post("http://10.131.214.7:8080/interface/op/all")
+        .post("http://"+ip.ipall+":8080/interface/op/all")
         .then(res => {
           console.log("输出response.data.status", res.data);
           if (res.data.flag === 1) {
@@ -100,7 +101,7 @@ export default {
     search(){
       console.log("1111")
       axios
-        .post("http://10.131.214.7:8080/interface/op/search?name=" + this.searchForm.name)
+        .post("http://"+ip.ipall+":8080/interface/op/search?name=" + this.searchForm.name)
         .then(res => {
           console.log("输出response.data.status", res.data);
           if (res.data.flag === 1) {

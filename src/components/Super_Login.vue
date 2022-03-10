@@ -34,6 +34,7 @@
  
 <script>
 import axios from "axios";
+import ip from "../ip/ip.js"
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Super_Login",
@@ -60,7 +61,7 @@ export default {
         // this.$router.push({ path: "/superuser" });
 
         axios
-          .post("http://10.131.214.7:8080/interface/root/login?id=" + this.user.username + "&pwd=" + this.user.password)
+          .post("http://"+ip.ipall+":8080/interface/root/login?id=" + this.user.username + "&pwd=" + this.user.password)
           // this.$router.push({ path: "/superuser" });
           .then(res => {
             console.log("输出response.data", res.data);

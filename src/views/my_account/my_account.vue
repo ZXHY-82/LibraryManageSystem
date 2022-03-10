@@ -13,6 +13,7 @@
 
 <script>
 import axios from 'axios'
+import ip from '../../ip/ip.js'
 export default {
   name: 'my_account',
   mounted(){
@@ -35,7 +36,7 @@ export default {
         const token = this.$store.state.user.token
         console.log(token)
         axios
-        .post("http://10.131.214.7:8080/user/search?id=" + token)
+        .post("http://"+ip.ipall+":8080/user/search?id=" + token)
         .then(res => {
           console.log("输出response.data.status", res.data);
           if (res.data.flag === 1) {
